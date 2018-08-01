@@ -11,15 +11,15 @@ int connect (char *ip_port);
 
 //возвращает дескриптор, порт 8679
 
-struct *fields reposition(struct fields *field);
+struct fields reposition(struct fields field);
 
 // возвращает заполненную структуру
 
-int window (struct fields *field);
+int window (struct fields field);
 
 //отрисовывает окна
 
-int battle(struct fields *field);
+int battle(struct fields field);
 
 // возвращает к началу
 
