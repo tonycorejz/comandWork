@@ -1,5 +1,9 @@
-include <stdio.h>
-include <stdlib.h>
+#ifndef FUNC_H
+#define FUNC_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ncurses.h>
 
 struct fields{
 	char my_field[10][10];
@@ -7,20 +11,12 @@ struct fields{
 	char status[256];
 };
 
-int connect (char *ip_port);
+int connect (char *ip_port);                    //возвращает дескриптор, порт 8679
 
-//возвращает дескриптор, порт 8679
+struct fields reposition(struct fields field); // возвращает заполненную структуру
 
-struct fields reposition(struct fields field);
+int window (struct fields field);             //отрисовывает окна
 
-// возвращает заполненную структуру
+int battle(struct fields field);              // возвращает исход боя
 
-int window (struct fields field);
-
-//отрисовывает окна
-
-int battle(struct fields field);
-
-// возвращает к началу
-
-
+#endif
