@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include <string.h>
+#include <unistd.h>
 
 struct fields{
 	char my_field[10][10];
