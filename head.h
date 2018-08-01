@@ -13,7 +13,7 @@ struct fields{
 	char status[256];
 };
 
-int connect (char *ip_port);                    //возвращает дескриптор, порт 8679
+int connect_est (char *ip_port);                    //возвращает дескриптор, порт 8679
 
 struct fields reposition(struct fields field); // возвращает заполненную структуру
 
