@@ -10,16 +10,16 @@ int connect_est (char *ip_port){
         exit(1);
     }
 
-    memset(&me, 0, length);
+   // memset(&me, 0, length);
     me.sin_family = AF_INET;
     me.sin_addr.s_addr = inet_addr(ip_port);
     me.sin_port = htons(8679);
 
-    if (bind(sock_d, &me, length) < 0) {
+   /* if (bind(sock_d, &me, length) < 0) {
         perror("Can't bind socket");
         exit(2);
     }
-
+*/
 
     return sock_d;
 }
