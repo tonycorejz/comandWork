@@ -6,6 +6,8 @@
 #include <ncurses.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
+#include <curses.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -16,7 +18,6 @@ struct fields{
 	char opponent_field[10][10];
 	char status[256];
 };
-struct 
 
 int connect_est (char *ip_port);                    //возвращает дескриптор, порт 8679
 
