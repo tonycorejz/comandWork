@@ -14,7 +14,7 @@ void set_rand_ships(int map[N][N], int size_ship, int num_ships) {
 		x = rand() & N;
 		y = rand() & N;
 		int temp_x = x;//временно хранит значение x
-		int temp_y = y;//временно хранит значение y
+		int temp_y = y;//временно хранит значение y  
 		dir = rand() & 4; //генерация направления
 		bool setting_is_possible = 1;
 		for (int i = 0; i<size_ship; i++) //проверка возможности отрисовки корабля {
