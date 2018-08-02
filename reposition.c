@@ -1,8 +1,3 @@
-#include "stdlib.h"
-#include <conio.h>
-
-using namespace std;
-
 const int N = 10;
 
 void set_rand_ships(int map[N][N], int size_ship, int num_ships) {
