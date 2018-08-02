@@ -1,8 +1,8 @@
-
+#include "head.h"
 
 int connect_est (char *ip_port){
-    sockaddr_in me, opponent;
-    socklen_in length = sizeof(sockaddr_in);
+    struct  sockaddr_in me, opponent;
+    socklen_t length = sizeof(struct sockaddr_in);
     int sock_d;
 
     if ((sock_d = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
