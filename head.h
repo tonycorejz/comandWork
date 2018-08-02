@@ -6,6 +6,8 @@
 #include <ncurses.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
+#include <curses.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -22,7 +24,7 @@ int connect_est (char *ip_port);                    //возвращает де�
 struct fields reposition(struct fields field); // возвращает заполненную структуру
 
 int window (struct fields field);             //отрисовывает окна
-
+int *  wait_click(int win_number );// 0 - для своего окна, 1 - для окна противника
 int battle(struct fields field);              // возвращает исход боя
 
 #endif
