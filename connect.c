@@ -18,7 +18,7 @@ int connect_est (char *ip_port){
     if (bind(sock_d,(struct sockaddr *) &me, length) < 0) 
         {    perror("Can't bind socket");   exit(2);   }
     char mes[256]="Hello, play SaeBattle?",buf[1500];
-    if(ip_port!=""){  // ip адрес передан
+    if(strlen(ip_port)!=0){  // ip адрес передан
           printf("Отправлен запрос на подключение к  %s\n",ip_port);
           me.sin_addr.s_addr = inet_addr(ip_port);
           sendto(sock_d, mes, strlen(mes), 0, (struct sockaddr *)&me, sizeof(me));

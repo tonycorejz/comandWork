@@ -183,10 +183,10 @@ int battle(struct fields field)
 
 	}
 }
-
+/*
 int main()
 {
 	fill();
 
 	return 0;
-}
+}*/
