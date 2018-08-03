@@ -26,8 +26,8 @@ int main (int argc, char *argv[])
 
 	}
 
-    sleep(2);
-  // sock_id=connect (opponent_addr);
+   // sleep(2);
+   sock_id=connect_est (opponent_addr);
 
    //инициализируем окно ncurses
       initscr();
