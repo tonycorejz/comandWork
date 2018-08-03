@@ -18,8 +18,8 @@ int main (int argc, char *argv[])
 		}
 		if(!strcmp(argv[i],"-addr"))
 			//if(!check_valid_addr[strcmp(argv[i+1]))
-			{
-		          printf("%s %s\n",argv[i+1],"IP адрес не соответсвует формату 192.168.2.138");
+			{ strcpy(opponent_addr,argv[i+1]);
+		 //         printf("%s %s\n",argv[i+1],"IP адрес не соответсвует формату 192.168.2.138");
 
 			}
 
