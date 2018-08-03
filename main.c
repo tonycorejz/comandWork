@@ -34,8 +34,8 @@ int main (int argc, char *argv[])
       start_color();
       keypad (stdscr, TRUE);
 
-   ships_fields=reposition(ships_fields);// расставили корабли на своем поле
-   window (ships_fields);
+  // ships_fields=reposition(ships_fields);// расставили корабли на своем поле
+   window(ships_fields);
    // battle(ships_fields);
 sleep(2);
     endwin();// разрушаем окно ncurses

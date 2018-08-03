@@ -1,16 +1,8 @@
 
-#include <sys/ioctl.h>
-#include <stdlib.h>
-#include <curses.h>
-#include <unistd.h>
+#include "head.h"
 
-struct fields{
-	char my_field[10][10];
-	char opponent_field[10][10];
-	char status[256];
-};
 
-int painter(struct fields fld){
+int window(struct fields fld){
     WINDOW * mainW;
     WINDOW * wndusr;
     WINDOW * wndoppos; 
@@ -91,7 +83,7 @@ int painter(struct fields fld){
     delwin(mainW);
     delwin(wndusr);
     delwin(wndoppos);
-    getch();
+//    getch();
     endwin();
     return 1;
 
