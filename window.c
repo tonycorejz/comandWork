@@ -6,9 +6,9 @@ int window(struct fields fld){
     WINDOW * mainW;
     WINDOW * wndusr;
     WINDOW * wndoppos; 
-    initscr();
+ //   initscr();
     curs_set(FALSE);
-    start_color();
+   // start_color();
     refresh();
     init_pair(5, COLOR_YELLOW, COLOR_YELLOW);//изначальный желтый фон
     init_pair(1, COLOR_CYAN, COLOR_CYAN);//изначальный фон

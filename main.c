@@ -36,7 +36,7 @@ int main (int argc, char *argv[])
 
   // ships_fields=reposition(ships_fields);// расставили корабли на своем поле
    window(ships_fields);
-   // battle(ships_fields);
+    battle(ships_fields,sock_id);
 sleep(2);
     endwin();// разрушаем окно ncurses
 return 0;
