@@ -39,7 +39,7 @@ int placement_check(struct fields map, int dir, int *coord, int length){
  *            1, если все вроде норм
  * */
 
-int ship_setting(struct fields map, int dir, int *coord, int length, int val){
+struct fields ship_setting(struct fields map, int dir, int *coord, int length, int val){
     int x = coord[X];
     int y = coord[Y];
     if(dir == X) {
@@ -47,9 +47,8 @@ int ship_setting(struct fields map, int dir, int *coord, int length, int val){
     }
     if(dir == Y){
         for (int i = 0; i < length; i++, y++) map.my_field[x][y] = val;
-    }else
-        return 0;
-    return 1;
+    }
+    return map;
 }
 
 /*
@@ -86,7 +85,7 @@ struct fields set_rand_ships(struct fields map) {
 		dir = rand() % 2;
 
 		if (placement_check(map, dir, coord, ship_length)) {
-			if(ship_setting(map, dir, coord, ship_length, 1)){
+			if(map = ship_setting(map, dir, coord, ship_length, 1)){
 				ship_length--;
 			}
 		} else {
