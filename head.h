@@ -30,7 +30,7 @@ struct connect_struct{
     int stroke; 
 };
 
-int connect_est (struct connect_struct connect_struct);                    //возвращает структуру, порт 8679
+struct connect_struct connect_est (char *ip_port);                    //возвращает структуру, порт 8679
 
 struct fields set_rand_ships(struct fields field); // возвращает структуру c заполненными полями
 
