@@ -91,32 +91,23 @@ int check(char opponent_field[10][10])
  * */
 int battle(struct fields field, int sock_fd, int stroke)
 {
-	print(field.my_field);
-	printf("\n");
-	print(field.opponent_field);
-	
 	int x, y;
     int repeat_move;
     int buf_coord[4];
     while(1){
-		//Ход игрока 
-		/* Получаем от игрока координаты ячейки
+		/* Получаем от второго игрока координаты ячейки
 		 * отправляем второму игроку на проверку  
 		 * Ожидаем сообщения от второго игрока
 		 * получаем либо 0 - пусто, либо 1 - есть корабль
 		 * соответственно ставится ничего или 2 (подбил)
 		 */
-        if(stroke == 1){
+        if(stroke == 1){ //игрок атакует
             repeat_move = 1;
-            //проверка на атакующий или нет 
             while(repeat_move == GOT_SHOT){
-                printf("\nTBoe :");
 	    	    scanf("%d %d", &x, &y); //функция вызова координат 
-                //Шлю координаты
 		        buf_coord[0] = x;
                 buf_coord[1] = y;
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
-                //Получаю ответ второго игрока о состоянии этой ячейки 
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 if(buf_coord[3] == 0)
                     break;
@@ -124,22 +115,26 @@ int battle(struct fields field, int sock_fd, int stroke)
                 y = buf_coord[1];
                 switch(buf_coord[2]){
     			    case 0:
-	    			    //Функция выставления точки 
-		    		    field.opponent_field[x][y] = 3;
+                        field.opponent_field[x][y] = 3;
+		    		    window(field);
                         repeat_move = 0;
 			        	break;
 
     			    case 1:
-	    		    	//Отрисовка что выстрел
 		    	    	field.opponent_field[x][y] = 2;    
+		    		    window(field);
                         break;
 
 			        case 2:
-				        //Функция ошибки, сюда уже били
+                        field.opponent_field[x][y] = 4;
+		    		    window(field);
+                        field.opponent_field[x][y] = 2;
 			    	    break;
 
     			    case 3:
-	    		    	//Функция ошибки, сюда уже били
+                        field.opponent_field[x][y] = 4;
+		    		    window(field);
+                        field.opponent_field[x][y] = 3;
 		    	    	break;
 				
 		        	default:
@@ -147,22 +142,20 @@ int battle(struct fields field, int sock_fd, int stroke)
 		    		    break;
                 }	
 		    }
-        }else{  //проверка на атакующий или нет 
-			    //Ход противника
-			    /* Получаем ячейку куда был выстрел 
-			     * Ставим в свой массив, если было 1 то ставится 2
-			     * если 0 то ЧТО-ТО
-			     * */
+        }else{  //игрок принимает атаку
+			/* Получаем ячейку куда был выстрел 
+			 * Ставим в свой массив, если было 1 то ставится 2
+			 * если 0 то ЧТО-ТО
+			 * */
             repeat_move = 1;
             while(repeat_move == GOT_SHOT){
-                printf("\nBrag : ");
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 x = buf_coord[0];
                 y = buf_coord[1];
                 switch(field.my_field[x][y]){
                     case 0:
-			        	//Функция выставления точки 
 				        field.my_field[x][y] = 3;
+		    		    window(field);
                         buf_coord[0] = x;
                         buf_coord[1] = y;
                         buf_coord[2] = 0;
@@ -170,8 +163,8 @@ int battle(struct fields field, int sock_fd, int stroke)
                         break;
 
 			        case 1:
-				        //Отрисовка что выстрел
 				        field.my_field[x][y] = 2;
+		    		    window(field);
                         buf_coord[0] = x;
                         buf_coord[1] = y;
                         buf_coord[2] = 1;
@@ -180,19 +173,10 @@ int battle(struct fields field, int sock_fd, int stroke)
                             repeat_move = 0;
 				        break;
 
-			        case 2:
-				        //Функция ошибки, сюда уже били
-				        break;
-
-			        case 3:
-				        //Функция ошибки, сюда уже били
-				        break;
-				
 			        default:
 				        printf("Что-то пошло не так");
 				        break;
                 }
-                //Передаю второму игроку о состоянии клетки
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
             }
         }
@@ -205,9 +189,6 @@ int battle(struct fields field, int sock_fd, int stroke)
         }
 
         stroke = stroke ^ 1;
-	    print(field.my_field);
-	    printf("\n");
-	    print(field.opponent_field);
     }
 }
 /*
