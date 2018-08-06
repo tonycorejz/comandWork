@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <curses.h>
+#include <signal.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -21,7 +22,9 @@ struct fields{
 
 int connect_est (char *ip_port);                    //возвращает дескриптор, порт 8679
 
-struct fields reposition(struct fields field); // возвращает заполненную структуру
+int** set_rand_ships(int **my_field); // возвращает заполненный массив и принимает поле структуры my_field
+
+int** set_ships_by_hand(int **my_field);
 
 int window (struct fields field);             //отрисовывает окна
 int *  wait_click(int win_number );// 0 - для своего окна, 1 - для окна противника

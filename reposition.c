@@ -54,7 +54,7 @@ int ship_setting(int map[N][N], int dir, int *coord, int length){
  * 		Если удалось поставить, переходим к следующему кораблю
  * */
 
-void set_rand_ships(int map[N][N]) {
+int** set_rand_ships(int map[N][N]) {
 
 	int coord[2];//определяет первичную координату
 	int dir; // 0 = горизонтально, 1 = вертикально
@@ -75,6 +75,7 @@ void set_rand_ships(int map[N][N]) {
 			printf("Ship cant be placed here!\n");
 		}
 	}
+	return map;
 }
 
 
@@ -88,7 +89,8 @@ void set_rand_ships(int map[N][N]) {
  * При клике по другой точке, переходим на следующий корабль
  * */
 
-void set_ships_by_hand(int map[N][N]) {
+int** set_ships_by_hand(int map[N][N]) {
 	int coord[2] = wait_click(0);
 	// В процессе...
+	return map;
 }
