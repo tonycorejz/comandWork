@@ -185,8 +185,9 @@ int battle(struct fields field)
                 }
                 //Передаю второму игроку о состоянии клетки
 
-                if(!check(field.my_field){
+                if(!check(field.my_field)){
                     //отправляю второму игроку что он победил
+		    int o=0;
                 }
             }
 

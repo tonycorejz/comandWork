@@ -38,6 +38,6 @@ struct fields set_ships_by_hand(struct fields field);
 
 int window (struct fields field);             //отрисовывает окна
 int *  wait_click(int win_number );// 0 - для своего окна, 1 - для окна противника
-int battle(struct fields field,int sock_oppenent);              // возвращает исход боя
+int battle(struct fields field);              // возвращает исход боя
 
 #endif

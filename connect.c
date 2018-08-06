@@ -1,7 +1,8 @@
 #include "head.h"
 
-int connect_est (char *ip_port){
+struct connect_struct connect_est (char *ip_port){
     struct  sockaddr_in me, opponent;
+    struct connect_struct con_st;
     socklen_t length = sizeof(struct sockaddr_in);
     int sock_d,sock_Broad;
 
@@ -53,5 +54,5 @@ int connect_est (char *ip_port){
       // if (bind(sock_d,(struct sockaddr *) &me, length) < 0) {
       //          perror("Can't bind socket 2");                exit(4);             }
      }while((!strcmp(buf,"Hello, play SeaBattle?"))  ||  ( !strcmp(buf,"Ok, play SeaBattle")));
-return sock_d;
+return con_st;
 }
