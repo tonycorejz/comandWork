@@ -35,24 +35,23 @@ struct connect_struct connect_est (char *ip_port){
 	//	printf("receive from %s:%i: %s  \n",inet_ntoa(me.sin_addr),htons(me.sin_port),buf);
 
           }
-    do{
-     strcpy(buf,"");
+    while(1){
+     memset(buf, 0, sizeof(buf));
      length=sizeof(me);
     recvfrom(sock_d, buf, 1024, 0, (struct sockaddr *) &me, &length);// ждем ответ оппонента
 		printf("receive from %s:%i: %s  \n",inet_ntoa(me.sin_addr),htons(me.sin_port),buf);
     if(!strcmp(buf,"Hello, play SeaBattle?")) // получили запрос на соединение
-    {
+      {
 	    me.sin_port = htons(8679);
-	    //if(connect(sock_d, (struct sockaddr *)&me, sizeof(me)) < 0) // подсоединяемся к серверу
-             //  {   perror("connect");    exit(2); }
+	    strcpy(mes,"Ok, play SeaBattle");
 	    sendto(sock_d, mes, strlen(mes), 0,(struct sockaddr *)&me, sizeof(me));
-         //   if (bind(sock_d,(struct sockaddr *) &me, length) < 0)
-	   //    {   perror("Can't bind socket");   exit(4);  }
-         
+	   con_st.stroke=1;
+	    break;
+      }
+    if(!strcmp(buf,"Ok, play SeaBattle")){ // получили подтверждение
+    	   con_st.stroke=0;
+	    break;    }
     }
-   // if(!strcmp(buf,"Ok, play SeaBattle")) // получили подтверждение
-      // if (bind(sock_d,(struct sockaddr *) &me, length) < 0) {
-      //          perror("Can't bind socket 2");                exit(4);             }
-     }while((!strcmp(buf,"Hello, play SeaBattle?"))  ||  ( !strcmp(buf,"Ok, play SeaBattle")));
+    con_st.ip_port=inet_ntoa(me.sin_addr);
 return con_st;
 }
