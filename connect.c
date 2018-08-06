@@ -17,7 +17,7 @@ int connect_est (char *ip_port){
     me.sin_addr.s_addr=htonl(INADDR_ANY);
     if (bind(sock_d,(struct sockaddr *) &me, length) < 0) 
         {    perror("Can't bind socket");   exit(2);   }
-    char mes[256]="Hello, play SaeBattle?",buf[1500];
+    char mes[256]="Hello, play SeaBattle?",buf[1500];
     if(strlen(ip_port)!=0){  // ip адрес передан
           printf("Отправлен запрос на подключение к  %s\n",ip_port);
           me.sin_addr.s_addr = inet_addr(ip_port);
@@ -50,7 +50,7 @@ int connect_est (char *ip_port){
     }
     if(!strcmp(buf,"Ok, play SeaBattle")) // получили подтверждение
        if (bind(sock_d,(struct sockaddr *) &me, length) < 0) {
-                perror("Can't bind socket");
+                perror("Can't bind socket 2");
                 exit(4);
              }
 return sock_d;
