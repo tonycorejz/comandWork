@@ -1,17 +1,7 @@
-//#include "head.h"
-#include <stdio.h>
+#include "head.h"
 
 #define GOT_SHOT 1
 
-struct fields{
-	char my_field[10][10];
-	char opponent_field[10][10];
-	char status[256];
-};
-
-int battle(struct fields field);
-
-/* Вывод. Так же удалю */
 void print(char field[10][10])
 {
 	for(int i = 0; i < 10; i++){
@@ -25,7 +15,7 @@ void print(char field[10][10])
 /* Заполняю массивы для проверки, при совмещении
  * с основным проектом удалю
  * */
-void fill()
+void fill(int sock_fd, int stroke)
 {
 	struct fields field;
 
@@ -77,7 +67,7 @@ void fill()
 	//1
 	field.opponent_field[7][8] = 1;
 	
-	battle(field);
+	battle(field, sock_fd, stroke);
 }
 
 /* Функция check выполняет проверку победил ли игрок
@@ -99,16 +89,15 @@ int check(char opponent_field[10][10])
  * Морского боя. На вход получает структуру с полями
  * игроков, завершается когда один из игроков выйграл
  * */
-int battle(struct fields field)
+int battle(struct fields field, int sock_fd, int stroke)
 {
-	/* Соединение со вторым игроком */
-
 	print(field.my_field);
 	printf("\n");
 	print(field.opponent_field);
 	
 	int x, y;
-    int reapit_move;
+    int repeat_move;
+    int buf_coord[4];
     while(1){
 		//Ход игрока 
 		/* Получаем от игрока координаты ячейки
@@ -117,58 +106,78 @@ int battle(struct fields field)
 		 * получаем либо 0 - пусто, либо 1 - есть корабль
 		 * соответственно ставится ничего или 2 (подбил)
 		 */
-        reapit_move = GOT_SHOT;
-        //проверка на атакующий или нет 
-        while(reapit_move == GOT_SHOT){
-            printf("\nTBoe :");
-	    	scanf("%d %d", &x, &y); //функция вызова координат 
-		    //Шлю координаты
-            //Получаю ответ второго игрока о состоянии этой ячейки 
-		    switch(field.opponent_field[x][y]){
-			    case 0:
-				    //Функция выставления точки 
-				    field.opponent_field[x][y] = 3;
-                    reapit_move = 0;
-			    	break;
-
-			    case 1:
-			    	//Отрисовка что выстрел
-			    	field.opponent_field[x][y] = 2;    
+        if(stroke == 1){
+            repeat_move = 1;
+            //проверка на атакующий или нет 
+            while(repeat_move == GOT_SHOT){
+                printf("\nTBoe :");
+	    	    scanf("%d %d", &x, &y); //функция вызова координат 
+                //Шлю координаты
+		        buf_coord[0] = x;
+                buf_coord[1] = y;
+                send(sock_fd, buf_coord, sizeof(buf_coord), 0);
+                //Получаю ответ второго игрока о состоянии этой ячейки 
+                recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
+                if(buf_coord[3] == 0)
                     break;
+                x = buf_coord[0];
+                y = buf_coord[1];
+                switch(buf_coord[2]){
+    			    case 0:
+	    			    //Функция выставления точки 
+		    		    field.opponent_field[x][y] = 3;
+                        repeat_move = 0;
+			        	break;
 
-			    case 2:
-				    //Функция ошибки, сюда уже били
-			    	break;
+    			    case 1:
+	    		    	//Отрисовка что выстрел
+		    	    	field.opponent_field[x][y] = 2;    
+                        break;
 
-			    case 3:
-			    	//Функция ошибки, сюда уже били
-			    	break;
+			        case 2:
+				        //Функция ошибки, сюда уже били
+			    	    break;
+
+    			    case 3:
+	    		    	//Функция ошибки, сюда уже били
+		    	    	break;
 				
-		    	default:
-		    		printf("Что-то пошло не так");
-		    		break;
-            }	
-		}
-        //проверка на атакующий или нет 
-			//Ход противника
-			/* Получаем ячейку куда был выстрел 
-			 * Ставим в свой массив, если было 1 то ставится 2
-			 * если 0 то ЧТО-ТО
-			 */
-        reapit_move = 0;
-            while(reapit_move != GOT_SHOT){
+		        	default:
+		    	    	printf("Что-то пошло не так");
+		    		    break;
+                }	
+		    }
+        }else{  //проверка на атакующий или нет 
+			    //Ход противника
+			    /* Получаем ячейку куда был выстрел 
+			     * Ставим в свой массив, если было 1 то ставится 2
+			     * если 0 то ЧТО-ТО
+			     * */
+            repeat_move = 1;
+            while(repeat_move == GOT_SHOT){
                 printf("\nBrag : ");
-                scanf("%d %d", &x, &y); //функция получения координат от противника 
+                recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
+                x = buf_coord[0];
+                y = buf_coord[1];
                 switch(field.my_field[x][y]){
                     case 0:
 			        	//Функция выставления точки 
 				        field.my_field[x][y] = 3;
-				        reapit_move = 1;
+                        buf_coord[0] = x;
+                        buf_coord[1] = y;
+                        buf_coord[2] = 0;
+				        repeat_move = 0;
                         break;
 
 			        case 1:
 				        //Отрисовка что выстрел
 				        field.my_field[x][y] = 2;
+                        buf_coord[0] = x;
+                        buf_coord[1] = y;
+                        buf_coord[2] = 1;
+                        buf_coord[3] = check(field.my_field);
+                        if(buf_coord[3] == 0)
+                            repeat_move = 0;
 				        break;
 
 			        case 2:
@@ -184,13 +193,18 @@ int battle(struct fields field)
 				        break;
                 }
                 //Передаю второму игроку о состоянии клетки
-
-                if(!check(field.my_field)){
-                    //отправляю второму игроку что он победил
-		    int o=0;
-                }
+                send(sock_fd, buf_coord, sizeof(buf_coord), 0);
             }
+        }
 
+        if(buf_coord[3] == 0){
+            if(stroke == 1)
+                return 0;
+            else
+                return 1;
+        }
+
+        stroke = stroke ^ 1;
 	    print(field.my_field);
 	    printf("\n");
 	    print(field.opponent_field);
