@@ -85,9 +85,9 @@ struct fields set_rand_ships(struct fields map) {
 		dir = rand() % 2;
 
 		if (placement_check(map, dir, coord, ship_length)) {
-			if(map = ship_setting(map, dir, coord, ship_length, 1)){
+			map = ship_setting(map, dir, coord, ship_length, 1);
 				ship_length--;
-			}
+
 		} else {
 			printf("Ship cant be placed here!\n");
 		}
