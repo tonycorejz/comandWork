@@ -32,9 +32,9 @@ struct connect_struct{
 
 int connect_est (struct connect_struct connect_struct);                    //возвращает структуру, порт 8679
 
-int** set_rand_ships(int **my_field); // возвращает заполненный массив и принимает поле структуры my_field
+struct fields set_rand_ships(struct fields field); // возвращает структуру c заполненными полями
 
-int** set_ships_by_hand(int **my_field);
+struct fields set_ships_by_hand(struct fields field);
 
 int window (struct fields field);             //отрисовывает окна
 int *  wait_click(int win_number );// 0 - для своего окна, 1 - для окна противника
