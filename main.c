@@ -27,15 +27,16 @@ int main (int argc, char *argv[])
 	}
 
    // sleep(2);
-   sock_id=connect_est (opponent_addr);
+  sock_id=connect_est (opponent_addr);
 
    //инициализируем окно ncurses
       initscr();
       start_color();
       keypad (stdscr, TRUE);
 
-  // ships_fields=reposition(ships_fields);// расставили корабли на своем поле
+   ships_fields=reposition(ships_fields);// расставили корабли на своем поле
    window(ships_fields);
+sleep(2);
     battle(ships_fields,sock_id);
 sleep(2);
     endwin();// разрушаем окно ncurses
