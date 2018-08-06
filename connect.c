@@ -31,27 +31,27 @@ int connect_est (char *ip_port){
           sendto(sock_Broad, mes, strlen(mes), 0, (struct sockaddr *)&me, sizeof(me));
           close(sock_Broad);
           recvfrom(sock_d, buf, 1024, 0, (struct sockaddr *) &me, &length);// получаю свое сообщение. Надо решить проблему
-		printf("receive from %s:%i: %s  \n",inet_ntoa(me.sin_addr),htons(me.sin_port),buf);
+	//	printf("receive from %s:%i: %s  \n",inet_ntoa(me.sin_addr),htons(me.sin_port),buf);
 
           }
-
+    do{
+     strcpy(buf,"");
+     length=sizeof(me);
     recvfrom(sock_d, buf, 1024, 0, (struct sockaddr *) &me, &length);// ждем ответ оппонента
 		printf("receive from %s:%i: %s  \n",inet_ntoa(me.sin_addr),htons(me.sin_port),buf);
     if(!strcmp(buf,"Hello, play SeaBattle?")) // получили запрос на соединение
     {
-	    strcpy(mes,"Ok, play SeaBattle");
 	    me.sin_port = htons(8679);
-	    if(connect(sock_d, (struct sockaddr *)&me, sizeof(me)) < 0) // подсоединяемся к серверу
-               {   perror("connect");    exit(2); }
-	    send(sock_d, mes, strlen(mes), 0);
-            if (bind(sock_d,(struct sockaddr *) &me, length) < 0)
-	       {   perror("Can't bind socket");   exit(4);  }
+	    //if(connect(sock_d, (struct sockaddr *)&me, sizeof(me)) < 0) // подсоединяемся к серверу
+             //  {   perror("connect");    exit(2); }
+	    sendto(sock_d, mes, strlen(mes), 0,(struct sockaddr *)&me, sizeof(me));
+         //   if (bind(sock_d,(struct sockaddr *) &me, length) < 0)
+	   //    {   perror("Can't bind socket");   exit(4);  }
          
     }
-    if(!strcmp(buf,"Ok, play SeaBattle")) // получили подтверждение
-       if (bind(sock_d,(struct sockaddr *) &me, length) < 0) {
-                perror("Can't bind socket 2");
-                exit(4);
-             }
+   // if(!strcmp(buf,"Ok, play SeaBattle")) // получили подтверждение
+      // if (bind(sock_d,(struct sockaddr *) &me, length) < 0) {
+      //          perror("Can't bind socket 2");                exit(4);             }
+     }while((!strcmp(buf,"Hello, play SeaBattle?"))  ||  ( !strcmp(buf,"Ok, play SeaBattle")));
 return sock_d;
 }
