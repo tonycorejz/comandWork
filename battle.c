@@ -195,10 +195,10 @@ int battle(struct fields field)
 	    print(field.opponent_field);
     }
 }
-
+/*
 int main()
 {
 	fill();
 
 	return 0;
-}
+}*/

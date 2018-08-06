@@ -1,2 +1,2 @@
 all:
-	gcc main.c connect.c window.c -o SeaBattle -lncurses 
+	gcc main.c connect.c window.c waitClick.c -o SeaBattle -lncurses 

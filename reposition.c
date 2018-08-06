@@ -1,80 +1,96 @@
-const int N = 10;
+#define X 0
+#define Y 1
+#define N 10
+#include <stdio.h>
+#include <stdlib.h>
+#include "head.h"
 
-void set_rand_ships(int map[N][N], int size_ship, int num_ships) {
-	int x, y; //определяет первичную координату
-	int dir = 0;
-	int count_ship = 0;
-	int count_tact = 0;//счетчик для предотвращения зацикливания
-	while (count_ship < num_ships) {
-		count_tact++;
-		if (count_tact > 1000)//если больше 1000, прерывает цикл{
-			break;
-		}
-		//первичная позиция
-		x = rand() & N;
-		y = rand() & N;
-		int temp_x = x;//временно хранит значение x
-		int temp_y = y;//временно хранит значение y  
-		dir = rand() & 4; //генерация направления
-		bool setting_is_possible = 1;
-		for (int i = 0; i<size_ship; i++) //проверка возможности отрисовки корабля {
-			if (x < 0 || y < 0 || x >= N || y >= N) {
-				setting_is_possible = 0;
-				break;
-			}
+/* Проверяет возможность размещения
+ * Возвращает 1, если можно поставить корабль
+ *            0, если нельзя
+ * */
 
-		//если есть возможность поставить корабль - ставим
-		if (setting_is_possible == 1) {
-			x = temp_x;
-			y = temp_y;
-			for (int i = 0; i < size_ship; i++)//5 палубный корабль {
-				map[x][y] = 1;
-				switch (dir) {
-				case 0:
-					x++;
-					break;
-				case 1:
-					y++;
-					break;
-				case 2:
-					x--;
-					break;
-				case 3:
-					y--;
-					break;
+int placement_check(int map[N][N], int dir, int *coord, int length){
+	if(dir == X){
+		for(int y = coord[Y]-1; y <= coord[Y]+1; y++)
+			for(int x = coord[X]-1; x <= coord[X]+length; x++){
+				if(map[x][y] == 1){
+				    return 0;
 				}
-			}
-
-			count_ship++;
-		}
+			}	
 	}
+	if(dir == Y){
+        for(int x = coord[X]-1; x <= coord[X]+1; x++)
+            for(int y = coord[Y]-1; y <= coord[Y]+length; y++){
+                if(map[x][y] == 1){
+                    return 0;
+                }
+            }
+	}
+	return 1;
 }
 
-void map_show(int map[N][N], int mask[N][N]) {
-	//прорисовка поля
-	cout << ' ';//сдвиг строки по горизонтали
-	for (int i = 0; i < N; i++) {
-		cout << i;//нумерация по горизонтали
-	}
-		cout << endl;
+/* Ставит корабль
+ * Возвращает 0, если проблемы с направлением
+ *            1, если все вроде норм
+ * */
 
-
-	for (int i = 0; i < N; i++) {
-		cout << i;//нумирация по вертикали
-		for (int j = 0; j < N; j++) {
-			if (mask[j][i] == 1) {
-				if (map[j][i] == 0) {
-					cout << '-';
-				}
-				else {
-					cout << map[j][i];
-				}
-			}
-			else {
-				cout <<' ';
-			}
-		}
-		cout << endl;
-	}
+int ship_setting(int map[N][N], int dir, int *coord, int length){
+    int x = coord[X];
+    int y = coord[Y];
+    if(dir == X) {
+        for (int i = 0; i < length; i++, x++) map[x][y] = 1;
+    }
+    if(dir == Y){
+        for (int i = 0; i < length; i++, y++) map[x][y] = 1;
+    }else
+        return 0;
+    return 1;
 }
 
+/* Рандомно расставляет корабли:
+ * 		Рандомит координаты и направление
+ * 		Проверяет возможность постановки
+ * 		Если удалось поставить, переходим к следующему кораблю
+ * */
+
+int** set_rand_ships(int map[N][N]) {
+
+	int coord[2];//определяет первичную координату
+	int dir; // 0 = горизонтально, 1 = вертикально
+	int ship_length = 5;
+
+	srand(time(NULL));
+
+	while(ship_length != 0) {
+		coord[X] = rand() % 10;
+		coord[Y] = rand() % 10;
+		dir = rand() % 2;
+
+		if (placement_check(map, dir, coord, ship_length)) {
+			if(ship_setting(map, dir, coord, ship_length)){
+				ship_length--;
+			}
+		} else {
+			printf("Ship cant be placed here!\n");
+		}
+	}
+	return map;
+}
+
+
+/* Получаем координаты клика
+ * Проверяем, ставим горизонтальный корбль
+ * Пока получаем клики по одной точке:
+ * 		Меняем направление
+ * 		Проверяем можно ли поставить корабль в этом направлении
+ * 		Удаляем поставленный корабль
+ * 		Ставим корабль в этом направлении
+ * При клике по другой точке, переходим на следующий корабль
+ * */
+
+int** set_ships_by_hand(int map[N][N]) {
+	int coord[2] = wait_click(0);
+	// В процессе...
+	return map;
+}
