@@ -31,23 +31,29 @@ int placement_check(struct fields map, int dir, int *coord, int length){
 }
 
 /* Ставит корабль
+ * Принимает val, как значение для заполнения
+ *      1 - заполняем клетками корабля
+ *      0 - заполняем пустыми клетками (удаляем корабль)
  * Возвращает 0, если проблемы с направлением
  *            1, если все вроде норм
  * */
 
-int ship_setting(struct fields map, int dir, int *coord, int length){
+int ship_setting(struct fields map, int dir, int *coord, int length, int val){
     int x = coord[X];
     int y = coord[Y];
     if(dir == X) {
-        for (int i = 0; i < length; i++, x++) map.my_field[x][y] = 1;
+        for (int i = 0; i < length; i++, x++) map.my_field[x][y] = val;
     }
     if(dir == Y){
-        for (int i = 0; i < length; i++, y++) map.my_field[x][y] = 1;
+        for (int i = 0; i < length; i++, y++) map.my_field[x][y] = val;
     }else
         return 0;
     return 1;
 }
 
+/*
+ * Заполняет оба поля нулями
+ * */
 
 struct fields init(struct fields map){
 	for(int x = 0; x < N; x++)
@@ -78,8 +84,8 @@ struct fields set_rand_ships(struct fields map) {
 		coord[Y] = rand() % 10;
 		dir = rand() % 2;
 
-		if (placement_check(map.my_field, dir, coord, ship_length)) {
-			if(ship_setting(map.my_field, dir, coord, ship_length)){
+		if (placement_check(map, dir, coord, ship_length)) {
+			if(ship_setting(map, dir, coord, ship_length, 1)){
 				ship_length--;
 			}
 		} else {
@@ -102,9 +108,18 @@ struct fields set_rand_ships(struct fields map) {
 
 struct fields set_ships_by_hand(struct fields map) {
 	map = init(map);
+/*
+    int dir = 0; // 0 = горизонтально, 1 = вертикально
+    int ship_length = 5;
+	int *coord;
+	while(ship_length != 0) {
+	    coord = wait_click(0);
+        if (placement_check(map, dir, coord, ship_length)){
 
-	int coord[2] = wait_click(0);
+        }
 
+    }
+    */
 	// В процессе...
 	return map;
 }
