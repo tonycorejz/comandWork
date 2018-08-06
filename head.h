@@ -20,11 +20,21 @@ struct fields{
 	char status[256];
 };
 
-int connect_est (char *ip_port);                    //возвращает дескриптор, порт 8679
+struct connect_struct{
+    char *ip_port;
+    /* Переменная для определения каким по счету
+     * подключился игрок.
+     * Если первым то 1
+     * Если вторым то 0
+     * */
+    int stroke; 
+};
 
-int** set_rand_ships(int **my_field); // возвращает заполненный массив и принимает поле структуры my_field
+int connect_est (struct connect_struct connect_struct);                    //возвращает структуру, порт 8679
 
-int** set_ships_by_hand(int **my_field);
+struct fields set_rand_ships(struct fields field); // возвращает структуру c заполненными полями
+
+struct fields set_ships_by_hand(struct fields field);
 
 int window (struct fields field);             //отрисовывает окна
 int *  wait_click(int win_number );// 0 - для своего окна, 1 - для окна противника
