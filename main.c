@@ -3,6 +3,7 @@
 int main (int argc, char *argv[])
 {
     struct fields ships_fields;
+    struct connect_struct  con_st;
      char  opponent_addr[256];
      int sock_id;
 	
@@ -27,14 +28,14 @@ int main (int argc, char *argv[])
 	}
 
    // sleep(2);
-  connect_est (opponent_addr);
-
+ con_st=connect_est (opponent_addr);
+printf ("Подключен %s ход %i\n",con_st.ip_port,con_st.stroke);
    //инициализируем окно ncurses
       initscr();
       start_color();
       keypad (stdscr, TRUE);
 
- //  ships_fields=reposition(ships_fields);// расставили корабли на своем поле
+  ships_fields=set_rand_ships(ships_fields);// расставили корабли на своем поле
    window(ships_fields);
 sleep(2);
     battle(ships_fields);
