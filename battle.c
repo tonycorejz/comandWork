@@ -37,8 +37,8 @@ int battle(struct fields field, int sock_fd, int stroke)
             repeat_move = 1;
             while(repeat_move == GOT_SHOT){
                 b = wait_click(1);
-                buf_coord[0] = b[1];
-                buf_coord[1] = b[0];
+                buf_coord[0] = b[0];
+                buf_coord[1] = b[1];
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 if(buf_coord[3] == 0)
