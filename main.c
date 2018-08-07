@@ -24,7 +24,6 @@ int main (int argc, char *argv[])
 			}
             if(!strcmp(argv[i],"-ar")){
                auto_reposition=1;
-                // printf("%s %s\n",argv[i+1],"IP адрес не соответсвует формату 192.168.2.138");
 			}
         }
     // sleep(2);
