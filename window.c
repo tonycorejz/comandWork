@@ -157,8 +157,8 @@ int window(struct fields fld){
     wmove(mainW,16,44);
     wprintw(mainW,"score:%d", sch_opnt);  
 
-    wmove(mainW,0,32-strlen(rr)/2);
-    wprintw(mainW, "%s", rr);//отображаю статус
+    wmove(mainW,0,32-strlen(fld.status)/2);
+    wprintw(mainW, "%s", fld.status);//отображаю статус
   
     refresh();
     wrefresh(mainW);
