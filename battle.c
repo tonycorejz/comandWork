@@ -2,74 +2,6 @@
 
 #define GOT_SHOT 1
 
-void print(char field[10][10])
-{
-	for(int i = 0; i < 10; i++){
-		for(int j = 0; j < 10; j++){
-			printf("%d ", field[i][j]);
-		}
-		printf("\n");
-	}
-}
-
-/* Заполняю массивы для проверки, при совмещении
- * с основным проектом удалю
- * */
-void fill(int sock_fd, int stroke)
-{
-	struct fields field;
-
-	for(int i = 0; i < 10; i++){
-		for(int j = 0; j < 10; j++){
-			field.my_field[i][j] = 0;
-			field.opponent_field[i][j] = 0;
-		}
-	}
-	//5
-	field.my_field[2][2] = 1;		
-	field.my_field[2][3] = 1;		
-	field.my_field[2][4] = 1;		
-	field.my_field[2][5] = 1;		
-	field.my_field[2][6] = 1;		
-	//4
-	field.my_field[3][9] = 1;		
-	field.my_field[4][9] = 1;		
-	field.my_field[5][9] = 1;		
-	field.my_field[6][9] = 1;		
-	//3
-	field.my_field[5][7] = 1;		
-	field.my_field[6][7] = 1;		
-	field.my_field[7][7] = 1;		
-	//2
-	field.my_field[5][1] = 1;		
-	field.my_field[6][1] = 1;		
-	//1
-	field.my_field[8][2] = 1;		
-
-	//5
-	field.opponent_field[0][0] = 1;
-	field.opponent_field[1][0] = 1;
-	field.opponent_field[2][0] = 1;
-	field.opponent_field[3][0] = 1;
-	field.opponent_field[4][0] = 1;
-	//4
-	field.opponent_field[5][2] = 1;
-	field.opponent_field[6][2] = 1;
-	field.opponent_field[7][2] = 1;
-	field.opponent_field[8][2] = 1;
-	//3
-	field.opponent_field[2][4] = 1;
-	field.opponent_field[2][5] = 1;
-	field.opponent_field[2][6] = 1;
-	//2
-	field.opponent_field[5][5] = 1;
-	field.opponent_field[6][5] = 1;
-	//1
-	field.opponent_field[7][8] = 1;
-	
-	battle(field, sock_fd, stroke);
-}
-
 /* Функция check выполняет проверку победил ли игрок
  * если находит не побитое поле возвращает 1, для 
  * продолжения игры
@@ -191,10 +123,3 @@ int battle(struct fields field, int sock_fd, int stroke)
         stroke = stroke ^ 1;
     }
 }
-/*
-int main()
-{
-	fill();
-
-	return 0;
-}*/
