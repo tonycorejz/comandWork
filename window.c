@@ -32,17 +32,17 @@ int window(struct fields fld){
     for(int i=0; i<10; i++){
         for(int t=0; t<10; t++){
             switch (fld.my_field[i][t]){
-                case '0': {
+                case 0: {
                             wattron (wndusr, COLOR_PAIR(1));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(1));
                             };break;
-                case '1': {
+                case 1: {
                             wattron (wndusr, COLOR_PAIR(3));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(3));
                            };break;
-                case '2': {
+                case 2: {
                             wattron (wndusr, COLOR_PAIR(2));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(2));
@@ -62,17 +62,17 @@ int window(struct fields fld){
    for(int i=0; i<10; i++){
         for(int t=0; t<10; t++){
             switch (fld.opponent_field[i][t]){
-                case '0': {
+                case 0: {
                             wattron (wndoppos, COLOR_PAIR(1));
                             wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
                             wattroff (wndoppos, COLOR_PAIR(1));
                             };break;
-                case '1': {
+                case 1: {
                             wattron (wndoppos, COLOR_PAIR(3));
                             wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
                             wattroff (wndoppos, COLOR_PAIR(3));
                            };break;
-                case '2': {
+                case 2: {
                             wattron (wndoppos, COLOR_PAIR(2));
                             wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
                             wattroff (wndoppos, COLOR_PAIR(2));
