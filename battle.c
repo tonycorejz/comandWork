@@ -59,13 +59,17 @@ int battle(struct fields field, int sock_fd, int stroke)
 			        case 2:
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 4;
 		    		    window(field);
+                        sleep(1);
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 2;
+		    		    window(field);
 			    	    break;
 
     			    case 3:
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 4;
 		    		    window(field);
+                        sleep(1);
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 3;
+		    		    window(field);
 		    	    	break;
 				
 		        	default:
