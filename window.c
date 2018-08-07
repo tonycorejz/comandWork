@@ -152,34 +152,14 @@ int window(struct fields fld){
     for(char i=97; i<=106; i++){
         wprintw(mainW, "%c ", i);
     }  
-    wmowe(mainW,0,0);
-    switch (fld.status){
-        case 0:{
-                    wattron (wndoppos, COLOR_PAIR(3));
-                    wprintw(wndoppos, "", fld.opponent_field[i][t]);
-                    wattroff (wndoppos, COLOR_PAIR(3));
-                }break;
-        case 0:{
-                    wattron (wndoppos, COLOR_PAIR(3));
-                    wprintw(wndoppos, "", fld.opponent_field[i][t]);
-                    wattroff (wndoppos, COLOR_PAIR(3));
-                }break;
-        case 0:{
-                    wattron (wndoppos, COLOR_PAIR(3));
-                    wprintw(wndoppos, "", fld.opponent_field[i][t]);
-                    wattroff (wndoppos, COLOR_PAIR(3));
-                }break;
-        default:{
-                    wattron (wndoppos, COLOR_PAIR(3));
-                    wprintw(wndoppos, "Status unknown", fld.opponent_field[i][t]);
-                    wattroff (wndoppos, COLOR_PAIR(3));
-                }break;
-    }   
-
     wmove(mainW,16,12);
     wprintw(mainW,"score:%d", sch_usr);
     wmove(mainW,16,44);
-    wprintw(mainW,"score:%d", sch_opnt);    
+    wprintw(mainW,"score:%d", sch_opnt);  
+
+    wmove(mainW,0,0);
+    wprintw(mainW, "%s", fld.status);//отображаю статус
+  
     refresh();
     wrefresh(mainW);
     wrefresh(wndoppos);
