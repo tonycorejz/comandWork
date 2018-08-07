@@ -115,20 +115,23 @@ struct fields set_ships_by_hand(struct fields map) {
 		coord = wait_click(0);
 		
 		if(coord[Y] == cach_coord[Y] && coord[X] == cach_coord[X]){
-			if (placement_check(map, 0, coord, ship_length)){
-				map = ship_setting(map, 1, coord, ship_length, 0);
-				map = ship_setting(map, 0, coord, ship_length, 1);
+			if (placement_check(map, Y, coord, ship_length)){
+				ship_length++;
+				map = ship_setting(map, X, coord, ship_length, 0);
+				map = ship_setting(map, Y, coord, ship_length, 1);
+				ship_length--;
 				window(map);
         		}
 		}else{
-			if (placement_check(map, 1, coord, ship_length)){
-				map = ship_setting(map, 1, coord, ship_length, 1);
+			if (placement_check(map, X, coord, ship_length)){
+				map = ship_setting(map, X, coord, ship_length, 1);
+				ship_length--;
 				window(map);
 			}
 		}
 		cach_coord[0] = coord[0];
 		cach_coord[1] = coord[1];
-		ship_length--;
+		
 	}
 	return map;
 }
