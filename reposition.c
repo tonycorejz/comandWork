@@ -106,7 +106,7 @@ struct fields set_rand_ships(struct fields map) {
 
 struct fields set_ships_by_hand(struct fields map) {
 	map = init(map);
-
+	strcpy (map.status, "Place your ships");
 	int dir = 0; // 0 = горизонтально, 1 = вертикально
 	int ship_length = 5;
 	int *coord, cach_coord[2] = {11, 11};
