@@ -12,21 +12,37 @@
  * */
 
 int placement_check(struct fields map, int dir, int *coord, int length){
-	if(dir == X){
-		for(int y = coord[Y]-1; y <= coord[Y]+1; y++)
-			for(int x = coord[X]-1; x <= coord[X]+length; x++){
-				if(map.my_field[x][y] == 1){
-				    return 0;
-				}
-			}	
+	int x = coord[X], y= coord[Y];
+    if(dir == X) {
+        if (x + length > 9) return 0;
+
+        for (int y = coord[Y] - 1; y <= coord[Y] + 1; y++)
+            for (int x = coord[X] - 1; x <= coord[X] + length; x++) {
+                if (map.my_field[x][y] == 1) {
+                    return 0;
+                }
+            }
+        /*
+        for(x , y ; x < coord[X]+length-1; x++){
+            if(map.my_field[y][x] == 1) return 0;
+        }
+        */
 	}
+
 	if(dir == Y){
+        if(y + length > 9) return 0;
+
         for(int x = coord[X]-1; x <= coord[X]+1; x++)
             for(int y = coord[Y]-1; y <= coord[Y]+length; y++){
                 if(map.my_field[x][y] == 1){
                     return 0;
                 }
             }
+       /*
+        for(x , y; y < coord[Y]+length-1; y++){
+            if(map.my_field[y][x] == 1) return 0;
+        }
+         */
 	}
 	return 1;
 }
@@ -95,12 +111,13 @@ struct fields set_rand_ships(struct fields map) {
 
 
 /* Получаем координаты клика
- * Проверяем, ставим горизонтальный корбль
- * Пока получаем клики по одной точке:
- * 		Меняем направление
- * 		Проверяем можно ли поставить корабль в этом направлении
+ * Проверяем, ставим горизонтальный корбль,
+ * Если нельзя поставить горизонтальный
+ * Проверяем, ставим вертикальный
+ * При получении клика по той же точке:
+ * 		Проверяем можно ли поставить вертикальный корабль
  * 		Удаляем поставленный корабль
- * 		Ставим корабль в этом направлении
+ * 		Ставим вертикальный корабль
  * При клике по другой точке, переходим на следующий корабль
  * */
 
@@ -127,10 +144,19 @@ struct fields set_ships_by_hand(struct fields map) {
 				map = ship_setting(map, X, coord, ship_length, 1);
 				ship_length--;
 				window(map);
+                cach_coord[0] = coord[0];
+                cach_coord[1] = coord[1];
+			} else {
+                if (placement_check(map, Y, coord, ship_length)) {
+                    map = ship_setting(map, Y, coord, ship_length, 1);
+                    ship_length--;
+                    window(map);
+                    cach_coord[0] = coord[0];
+                    cach_coord[1] = coord[1];
+                }
 			}
 		}
-		cach_coord[0] = coord[0];
-		cach_coord[1] = coord[1];
+
 		
 	}
 	return map;
