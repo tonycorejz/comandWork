@@ -16,10 +16,11 @@ int window(struct fields fld){
 
     refresh();
     init_pair(5, COLOR_BLACK, COLOR_YELLOW);//изначальный желтый фон
-    init_pair(1, COLOR_CYAN, COLOR_CYAN);//изначальный фон
-    init_pair(4, COLOR_RED, COLOR_RED);//фон ошибки
-    init_pair(3, COLOR_BLUE, COLOR_BLUE);//корабль
-    init_pair(2, COLOR_BLACK, COLOR_BLACK);//корабль подбит
+    init_pair(1, COLOR_WHITE, COLOR_CYAN);//изначальный фон
+    init_pair(6, COLOR_WHITE, COLOR_BLUE);//изначальный фон1
+    init_pair(4, COLOR_BLACK, COLOR_RED);//фон ошибки
+    init_pair(3, COLOR_WHITE, COLOR_BLACK);//корабль
+    //init_pair(2, COLOR_BLACK, COLOR_BLACK);//корабль подбит
     mainW = newwin(20, 64, 2, 2);
     wndusr = newwin(10, 20, 8, 8);
     wndoppos = newwin(10, 20, 8, 40);
@@ -28,27 +29,48 @@ int window(struct fields fld){
     wrefresh(mainW);
     wbkgd(wndusr, COLOR_PAIR(1));
     wbkgd(wndoppos, COLOR_PAIR(1));
+
     
+       
     for(int i=0; i<10; i++){
         for(int t=0; t<10; t++){
             switch (fld.my_field[i][t]){
                 case 0: {
-                            wattron (wndusr, COLOR_PAIR(1));
-                            wprintw(wndusr, "  ", fld.my_field[i][t]);
-                            wattroff (wndusr, COLOR_PAIR(1));
-                            };break;
-                case 1: {
+                            if(i%2!=0&&t%2!=0||i%2==0&&t%2==0){
+                                wattron (wndusr, COLOR_PAIR(1));
+                                wprintw(wndusr, "  ", fld.my_field[i][t]);
+                                wattroff (wndusr, COLOR_PAIR(1));
+                            }
+                            else{
+                                wattron (wndusr, COLOR_PAIR(6));
+                                wprintw(wndusr, "  ", fld.my_field[i][t]);
+                                wattroff (wndusr, COLOR_PAIR(6));  
+                            }
+                        };break;
+                case 1: {//пустое поле
                             wattron (wndusr, COLOR_PAIR(3));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(3));
                            };break;
-                case 2: {
-                            wattron (wndusr, COLOR_PAIR(2));
-                            wprintw(wndusr, "  ", fld.my_field[i][t]);
-                            wattroff (wndusr, COLOR_PAIR(2));
+                case 2: {//корабль подбит
+                            wattron (wndusr, COLOR_PAIR(3));
+                            wprintw(wndusr, "**", fld.my_field[i][t]);
+                            wattroff (wndusr, COLOR_PAIR(3));
                             sch_opnt++;
                            };break;
-                default:{
+                case 3: {////молоко
+                            if(i%2!=0&&t%2!=0||i%2==0&&t%2==0){
+                                wattron (wndusr, COLOR_PAIR(1));
+                                wprintw(wndusr, "**", fld.my_field[i][t]);
+                                wattroff (wndusr, COLOR_PAIR(1));
+                            }
+                            else{
+                                wattron (wndusr, COLOR_PAIR(6));
+                                wprintw(wndusr, "**", fld.my_field[i][t]);
+                                wattroff (wndusr, COLOR_PAIR(6));  
+                            }
+                           };break;
+                default:{//ошибка
                             wattron (wndusr, COLOR_PAIR(4));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(4));
@@ -63,23 +85,41 @@ int window(struct fields fld){
         for(int t=0; t<10; t++){
             switch (fld.opponent_field[i][t]){
                 case 0: {
-                            wattron (wndoppos, COLOR_PAIR(1));
-                            wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
-                            wattroff (wndoppos, COLOR_PAIR(1));
-                            };break;
-                case 1: {
+                            if(i%2!=0&&t%2!=0||i%2==0&&t%2==0){
+                                wattron (wndoppos, COLOR_PAIR(1));
+                                wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
+                                wattroff (wndoppos, COLOR_PAIR(1));
+                            }
+                            else{
+                                wattron (wndoppos, COLOR_PAIR(6));
+                                wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
+                                wattroff (wndoppos, COLOR_PAIR(6));  
+                            }
+                        };break;
+                case 1: {//пустое поле
                             wattron (wndoppos, COLOR_PAIR(3));
                             wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
                             wattroff (wndoppos, COLOR_PAIR(3));
                            };break;
-                case 2: {
-                            wattron (wndoppos, COLOR_PAIR(2));
-                            wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
-                            wattroff (wndoppos, COLOR_PAIR(2));
+                case 2: {//корабль подбит
+                            wattron (wndoppos, COLOR_PAIR(3));
+                            wprintw(wndoppos, "**", fld.opponent_field[i][t]);
+                            wattroff (wndoppos, COLOR_PAIR(3));
                             sch_usr++;
                            };break;
-                default:
-                        {
+                case 3: {////молоко
+                            if(i%2!=0&&t%2!=0||i%2==0&&t%2==0){
+                                wattron (wndoppos, COLOR_PAIR(1));
+                                wprintw(wndoppos, "**", fld.opponent_field[i][t]);
+                                wattroff (wndoppos, COLOR_PAIR(1));
+                            }
+                            else{
+                                wattron (wndoppos, COLOR_PAIR(6));
+                                wprintw(wndoppos, "**", fld.opponent_field[i][t]);
+                                wattroff (wndoppos, COLOR_PAIR(6));  
+                            }
+                           };break;
+                default:{//ошибка
                             wattron (wndoppos, COLOR_PAIR(4));
                             wprintw(wndoppos, "  ", fld.opponent_field[i][t]);
                             wattroff (wndoppos, COLOR_PAIR(4));
@@ -127,29 +167,5 @@ int window(struct fields fld){
 
 }
 
-
-/*int main()
-{
-   struct fields fld;
-   for(int i=0; i<10; i++){
-        for(int t=0; t<10; t++){
-            fld.my_field[i][t]='0';
-            if(i==3&&(t==5||t==6||t==7)) fld.my_field[i][t]='1';
-            if(i==3&&(t==8)) fld.my_field[i][t]='4';
-        }
-    }
-
-    for(int i=0; i<10; i++){
-        for(int t=0; t<10; t++){
-            fld.opponent_field[i][t]='0';
-            if(i==3&&(t==5||t==6||t==7)) fld.opponent_field[i][t]='1';
-        }
-    }  
-    printf("%c", fld.my_field[2][5]); 
-    while(1){
-    painter(fld);
-    }
-    return 0;
-}*/
 
 
