@@ -26,7 +26,7 @@ struct connect_struct connect_est (char *ip_port){
     }
     else  {     
 	    printf("%s\n","Broad");
-	  me.sin_addr.s_addr=inet_addr("192.168.0.255"); // широковещательный адрес
+	  me.sin_addr.s_addr=inet_addr("192.168.2.255"); // широковещательный адрес
           int val=1;
           setsockopt(sock_Broad,SOL_SOCKET,SO_BROADCAST,&val,sizeof(int));
           sendto(sock_Broad, mes, strlen(mes), 0, (struct sockaddr *)&me, sizeof(me));
@@ -44,14 +44,18 @@ struct connect_struct connect_est (char *ip_port){
       {
 	    me.sin_port = htons(8679);
 	    strcpy(mes,"Ok, play SeaBattle");
-	    sendto(sock_d, mes, strlen(mes), 0,(struct sockaddr *)&me, sizeof(me));
+	    connect(sock_d, (struct sockaddr *)&me, sizeof(me)); // подсоединяемся к серверу
+	   // sendto(sock_d, mes, strlen(mes), 0,(struct sockaddr *)&me, sizeof(me));
+	    send(sock_d, mes, strlen(mes), 0);
 	   con_st.stroke=1;
 	    break;
       }
     if(!strcmp(buf,"Ok, play SeaBattle")){ // получили подтверждение
     	   con_st.stroke=0;
+	   connect(sock_d, (struct sockaddr *)&me, sizeof(me)); // подсоединяемся к серверу
 	    break;    }
     }
     con_st.ip_port=inet_ntoa(me.sin_addr);
+    con_st.sock_id=sock_d;
 return con_st;
 }

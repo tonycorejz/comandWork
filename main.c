@@ -33,7 +33,7 @@ int main (int argc, char *argv[])
     ships_fields=set_rand_ships(ships_fields);// расставили корабли на своем поле
     window(ships_fields);
     sleep(2);
-    //battle(ships_fields);
+    battle(ships_fields,con_st.sock_id,con_st.stroke);
     sleep(2);
     endwin();// разрушаем окно ncurses
 

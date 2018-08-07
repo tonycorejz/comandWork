@@ -22,6 +22,7 @@ struct fields{
 
 struct connect_struct{
     char *ip_port; 
+    int sock_id;
     /* Переменная для определения каким по счету
      * подключился игрок.
      * Если первым то 1
