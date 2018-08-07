@@ -20,22 +20,22 @@ int window(struct fields fld){
     init_pair(6, COLOR_WHITE, COLOR_BLUE);//изначальный фон1
     init_pair(4, COLOR_BLACK, COLOR_RED);//фон ошибки
     init_pair(3, COLOR_WHITE, COLOR_BLACK);//корабль
-    //init_pair(2, COLOR_BLACK, COLOR_BLACK);//корабль подбит
-    mainW = newwin(20, 64, 2, 2);
-    wndusr = newwin(10, 20, 8, 8);
-    wndoppos = newwin(10, 20, 8, 40);
-    wbkgd(mainW, COLOR_PAIR(5));
-    int sch_usr=0, sch_opnt=0;
-    wrefresh(mainW);
-    wbkgd(wndusr, COLOR_PAIR(1));
+
+    mainW = newwin(20, 64, 2, 2);//главное желтое окно
+    wndusr = newwin(10, 20, 8, 8);//окно пользователя
+    wndoppos = newwin(10, 20, 8, 40);//окно оппонента
+    wbkgd(mainW, COLOR_PAIR(5));//заполняю главное окно цветовой парой
+    int sch_usr=0, sch_opnt=0; //объявление переменных для счета
+    wrefresh(mainW); //обновляю главное окно
+    wbkgd(wndusr, COLOR_PAIR(1));//заполняю поля боя цветовыми парами
     wbkgd(wndoppos, COLOR_PAIR(1));
 
     
        
     for(int i=0; i<10; i++){
         for(int t=0; t<10; t++){
-            switch (fld.my_field[i][t]){
-                case 0: {
+            switch (fld.my_field[i][t]){ //в двух циклах заполняю поле пользователя
+                case 0: {//если поле пусто
                             if(i%2!=0&&t%2!=0||i%2==0&&t%2==0){
                                 wattron (wndusr, COLOR_PAIR(1));
                                 wprintw(wndusr, "  ", fld.my_field[i][t]);
@@ -47,7 +47,7 @@ int window(struct fields fld){
                                 wattroff (wndusr, COLOR_PAIR(6));  
                             }
                         };break;
-                case 1: {//пустое поле
+                case 1: {//корабль
                             wattron (wndusr, COLOR_PAIR(3));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(3));
@@ -70,7 +70,7 @@ int window(struct fields fld){
                                 wattroff (wndusr, COLOR_PAIR(6));  
                             }
                            };break;
-                default:{//ошибка
+                default:{//ошибка (вызывается на 0,5 секунды)
                             wattron (wndusr, COLOR_PAIR(4));
                             wprintw(wndusr, "  ", fld.my_field[i][t]);
                             wattroff (wndusr, COLOR_PAIR(4));
@@ -79,11 +79,11 @@ int window(struct fields fld){
         }
     }
 
-    wrefresh(wndusr);
+    wrefresh(wndusr); //обновляем окно пользователя
 
    for(int i=0; i<10; i++){
         for(int t=0; t<10; t++){
-            switch (fld.opponent_field[i][t]){
+            switch (fld.opponent_field[i][t]){ //точно такое же заполнение поля противника
                 case 0: {
                             if(i%2!=0&&t%2!=0||i%2==0&&t%2==0){
                                 wattron (wndoppos, COLOR_PAIR(1));
@@ -157,7 +157,7 @@ int window(struct fields fld){
     wmove(mainW,16,44);
     wprintw(mainW,"score:%d", sch_opnt);  
 
-    wmove(mainW,COLS/2-strlen(fld.status),0);
+    wmove(mainW,0,COLS/2-strlen(fld.status));
     wprintw(mainW, "%s", fld.status);//отображаю статус
   
     refresh();
