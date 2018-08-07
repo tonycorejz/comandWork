@@ -1,5 +1,5 @@
-#define X 0
-#define Y 1
+#define X 1
+#define Y 0
 #define N 10
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,10 +43,10 @@ struct fields ship_setting(struct fields map, int dir, int *coord, int length, i
     int x = coord[X];
     int y = coord[Y];
     if(dir == X) {
-        for (int i = 0; i < length; i++, x++) map.my_field[x][y] = val;
+        for (int i = 0; i < length; i++, x++) map.my_field[y][x] = val;
     }
     if(dir == Y){
-        for (int i = 0; i < length; i++, y++) map.my_field[x][y] = val;
+        for (int i = 0; i < length; i++, y++) map.my_field[y][x] = val;
     }
     return map;
 }
@@ -59,7 +59,7 @@ struct fields init(struct fields map){
 	for(int x = 0; x < N; x++)
 		for(int y = 0; y < N; y++) {
 			map.my_field[x][y] = 0;
-			map.opponent_field[x][y]=0;
+			map.opponent_field[x][y] = 0;
 		}
 	return map;
 }
@@ -107,22 +107,22 @@ struct fields set_rand_ships(struct fields map) {
 struct fields set_ships_by_hand(struct fields map) {
 	map = init(map);
 	strcpy (map.status, "Place your ships");
-	int dir = 0; // 0 = горизонтально, 1 = вертикально
+	int dir = 0; // 1 = горизонтально, 0 = вертикально
 	int ship_length = 5;
 	int *coord, cach_coord[2] = {11, 11};
 	while(ship_length != 0) {		
 		window(map);
 		coord = wait_click(0);
 		
-		if(coord[0] == cach_coord[0] && coord[1] == cach_coord[1]){
-			if (placement_check(map, 1, coord, ship_length)){
-				map = ship_setting(map, 0, coord, ship_length, 0);
-				map = ship_setting(map, 1, coord, ship_length, 1);
+		if(coord[Y] == cach_coord[Y] && coord[X] == cach_coord[X]){
+			if (placement_check(map, 0, coord, ship_length)){
+				map = ship_setting(map, 1, coord, ship_length, 0);
+				map = ship_setting(map, 0, coord, ship_length, 1);
 				window(map);
         		}
 		}else{
-			if (placement_check(map, dir, coord, ship_length)){
-				map = ship_setting(map, 0, coord, ship_length, 1);
+			if (placement_check(map, 1, coord, ship_length)){
+				map = ship_setting(map, 1, coord, ship_length, 1);
 				window(map);
 			}
 		}
