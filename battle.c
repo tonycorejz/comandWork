@@ -35,7 +35,7 @@ int battle(struct fields field, int sock_fd, int stroke)
 		 */
         if(stroke == 1){ //игрок атакует
             repeat_move = 1;
-            status[] = "The first player walks"; 
+            field.status[] = "The first player walks"; 
             while(repeat_move == GOT_SHOT){
                 b = wait_click(1);
                 buf_coord[0] = b[0];
@@ -79,7 +79,7 @@ int battle(struct fields field, int sock_fd, int stroke)
 			 * если 0 то ЧТО-ТО
 			 * */
             repeat_move = 1;
-            status[] = "The second player walks"; 
+            field.status[] = "The second player walks"; 
             while(repeat_move == GOT_SHOT){
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 switch(field.my_field[buf_coord[0]][buf_coord[1]]){
