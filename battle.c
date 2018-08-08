@@ -23,7 +23,7 @@ int check(char opponent_field[10][10])
  * */
 int battle(struct fields field, int sock_fd, int stroke)
 {
-    int repeat_move;
+    int repeat_move; 
     int buf_coord[4];
     int *b; //для получения координат от waitClick
     while(1){
@@ -124,10 +124,12 @@ int battle(struct fields field, int sock_fd, int stroke)
         if(buf_coord[3] == 0){
             if(stroke == 1){
                 strcpy(field.status, "You win");
+                window(field);
                 sleep(10);
                 return 0;
             }else{
                 strcpy(field.status, "You lose");
+                window(field);
                 sleep(10);
                 return 1;
             }
