@@ -1,9 +1,3 @@
-#define X 1
-#define Y 0
-#define N 10
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "head.h"
 
 /* Проверяет возможность размещения

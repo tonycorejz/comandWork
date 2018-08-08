@@ -1,6 +1,10 @@
 #ifndef FUNC_H
 #define FUNC_H
+#define X 1
+#define Y 0
+#define N 10
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
