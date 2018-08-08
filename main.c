@@ -9,7 +9,7 @@ int main (int argc, char *argv[])
     int auto_reposition=0;
 	
     strcpy(opponent_addr,"");
-    if(argc>1)
+    if(argc>1) 
 	    for(int i=1;i<argc;i++){
             if(!strcmp(argv[i],"-help")){
                 // printf("%s\n","Помощь спешит!");
@@ -31,7 +31,7 @@ int main (int argc, char *argv[])
     if(auto_reposition)
         ships_fields=set_rand_ships(ships_fields);// расставили корабли на своем поле
     con_st=connect_est (opponent_addr);
-    printf ("Подключен %s ход %i\n",con_st.ip_port,con_st.stroke);
+    printf ("Подключен %s\n",con_st.ip_port);
     //инициализируем окно ncurses
     initscr();
     start_color();
