@@ -28,7 +28,7 @@ int main (int argc, char *argv[])
         }
     // sleep(2);
     if(auto_reposition)
-        ships_fields=set_rand_ships(ships_fields);// расставили корабли на своем поле
+        ships_fields=set_rand_ships(ships_fields);// автоматическая расстановка кораблей на поле
     con_st=connect_est (opponent_addr);
     printf ("Подключен %s ход %i\n",con_st.ip_port,con_st.stroke);
     //инициализируем окно ncurses
@@ -36,7 +36,7 @@ int main (int argc, char *argv[])
     start_color();
     keypad (stdscr, TRUE);
     if(!auto_reposition)
-	    ships_fields=set_ships_by_hand(ships_fields);// расставили корабли на своем поле
+	    ships_fields=set_ships_by_hand(ships_fields);// ручная расстановка кораблей на своем 
     window(ships_fields);
     sleep(2);
     battle(ships_fields,con_st.sock_id,con_st.stroke);
