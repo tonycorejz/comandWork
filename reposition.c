@@ -118,6 +118,7 @@ struct fields set_ships_by_hand(struct fields map) {
     int dir = 0; // 1 = горизонтально, 0 = вертикально
     int ship_length = 5;
     int *coord, cach_coord[2] = {11, 11};
+    char red_state_of_field;
     while (ship_length != 0) {
         window(map);
         coord = wait_click(0);
@@ -153,7 +154,15 @@ struct fields set_ships_by_hand(struct fields map) {
                 ship_length--;
                 window(map);
 
-            }
+            }else{
+                    red_state_of_field=map.my_field[coord[0]][coord[1]];
+                    map.my_field[coord[0]][coord[1]] = 4;
+                    window(map);
+                    usleep(500000);
+                    map.my_field[coord[0]][coord[1]]=red_state_of_field;
+                    window(map);
+                    
+                }
         }
 
 
