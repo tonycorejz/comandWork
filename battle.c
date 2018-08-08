@@ -101,8 +101,10 @@ int battle(struct fields field, int sock_fd, int stroke)
                         window(field);
                         buf_coord[2] = 1;
                         buf_coord[3] = check(field.my_field);
-                        if(buf_coord[3] == 0)
+                        if(buf_coord[3] == 0){
+                            send(sock_fd, buf_coord, sizeof(buf_coord), 0);
                             repeat_move = 0;
+                        }
                         break;
 
                     case 2:
