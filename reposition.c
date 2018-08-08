@@ -8,11 +8,11 @@
 int placement_check(struct fields map, int dir, int *coord, int length){
 	int x = coord[X], y= coord[Y];
     if(dir == X) {
-        if (x + length > 9) return 0;
+        if (x + length > 10) return 0;
 
         for (int y = coord[Y] - 1; y <= coord[Y] + 1; y++)
             for (int x = coord[X] - 1; x <= coord[X] + length; x++) {
-                if (map.my_field[x][y] == 1) {
+                if (map.my_field[y][x] == 1) {
                     return 0;
                 }
             }
@@ -24,11 +24,11 @@ int placement_check(struct fields map, int dir, int *coord, int length){
 	}
 
 	if(dir == Y){
-        if(y + length > 9) return 0;
+        if(y + length > 10) return 0;
 
         for(int x = coord[X]-1; x <= coord[X]+1; x++)
             for(int y = coord[Y]-1; y <= coord[Y]+length; y++){
-                if(map.my_field[x][y] == 1){
+                if(map.my_field[y][x] == 1){
                     return 0;
                 }
             }
@@ -126,29 +126,36 @@ struct fields set_ships_by_hand(struct fields map) {
 		coord = wait_click(0);
 		
 		if(coord[Y] == cach_coord[Y] && coord[X] == cach_coord[X]){
-			if (placement_check(map, Y, coord, ship_length)){
-				ship_length++;
-				map = ship_setting(map, X, coord, ship_length, 0);
-				map = ship_setting(map, Y, coord, ship_length, 1);
-				ship_length--;
-				window(map);
-        		}
-		}else{
-			if (placement_check(map, X, coord, ship_length)){
+                if(dir==X){ 
+                    ship_length++;
+                    map = ship_setting(map, X, coord, ship_length, 0);
+                    dir=Y;
+			    	
+		           if (placement_check(map, Y, coord, ship_length)){
+			    	    map = ship_setting(map, Y, coord, ship_length, 1);
+			    	    ship_length--;
+				        window(map);
+        	    	}else{
+                             cach_coord[Y]=-1;
+                             cach_coord[X]=-1;
+                          }
+                }else{
+                       ship_length++;
+                       map = ship_setting(map, Y, coord, ship_length, 0); 
+                       cach_coord[Y]=-1;
+                       cach_coord[X]=-1;
+                        }
+		}else{      
+                
+                
+			if (placement_check(map, X, coord, ship_length)){dir=X;
+                cach_coord[0] = coord[0];
+                cach_coord[1] = coord[1];
 				map = ship_setting(map, X, coord, ship_length, 1);
 				ship_length--;
 				window(map);
-                cach_coord[0] = coord[0];
-                cach_coord[1] = coord[1];
-			} else {
-                if (placement_check(map, Y, coord, ship_length)) {
-                    map = ship_setting(map, Y, coord, ship_length, 1);
-                    ship_length--;
-                    window(map);
-                    cach_coord[0] = coord[0];
-                    cach_coord[1] = coord[1];
-                }
-			}
+                
+			} 
 		}
 
 		

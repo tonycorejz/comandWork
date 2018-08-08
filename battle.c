@@ -23,7 +23,7 @@ int check(char opponent_field[10][10])
  * */
 int battle(struct fields field, int sock_fd, int stroke)
 {
-    int repeat_move;
+    int repeat_move; 
     int buf_coord[4];
     int *b; //для получения координат от waitClick
     while(1){
@@ -43,8 +43,6 @@ int battle(struct fields field, int sock_fd, int stroke)
                 buf_coord[1] = b[1];
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
-                if(buf_coord[3] == 0)
-                    break;
                 switch(buf_coord[2]){
                     case 0:
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 3;
@@ -77,6 +75,8 @@ int battle(struct fields field, int sock_fd, int stroke)
                         printf("Что-то пошло не так");
                         break;
                 }
+                if(buf_coord[3] == 0)
+                    break;
             }
         }else{  //игрок принимает атаку
             /* Получаем ячейку куда был выстрел 
@@ -124,10 +124,12 @@ int battle(struct fields field, int sock_fd, int stroke)
         if(buf_coord[3] == 0){
             if(stroke == 1){
                 strcpy(field.status, "You win");
+                window(field);
                 sleep(10);
                 return 0;
             }else{
                 strcpy(field.status, "You lose");
+                window(field);
                 sleep(10);
                 return 1;
             }
