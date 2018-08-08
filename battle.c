@@ -43,8 +43,6 @@ int battle(struct fields field, int sock_fd, int stroke)
                 buf_coord[1] = b[1];
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
-                if(buf_coord[3] == 0)
-                    break;
                 switch(buf_coord[2]){
                     case 0:
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 3;
@@ -77,6 +75,8 @@ int battle(struct fields field, int sock_fd, int stroke)
                         printf("Что-то пошло не так");
                         break;
                 }
+                if(buf_coord[3] == 0)
+                    break;
             }
         }else{  //игрок принимает атаку
             /* Получаем ячейку куда был выстрел 
@@ -101,10 +101,8 @@ int battle(struct fields field, int sock_fd, int stroke)
                         window(field);
                         buf_coord[2] = 1;
                         buf_coord[3] = check(field.my_field);
-                        if(buf_coord[3] == 0){
-                            send(sock_fd, buf_coord, sizeof(buf_coord), 0);
+                        if(buf_coord[3] == 0)
                             repeat_move = 0;
-                        }
                         break;
 
                     case 2:
