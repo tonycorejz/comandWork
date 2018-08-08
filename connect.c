@@ -26,7 +26,7 @@ struct connect_struct connect_est (char *ip_port){
            if (bind(sock_d,(struct sockaddr *) &me, length) < 0) 
               {    perror("Can't bind socket");   exit(2);   }
 	  printf("%s\n","Broad");
-	  me.sin_addr.s_addr=inet_addr("192.168.0.255"); // широковещательный адрес
+	  me.sin_addr.s_addr=inet_addr("192.168.2.255"); // широковещательный адрес
           int val=1;
           setsockopt(sock_Broad,SOL_SOCKET,SO_BROADCAST,&val,sizeof(int));
           sendto(sock_Broad, mes, strlen(mes), 0, (struct sockaddr *)&me, sizeof(me));

@@ -11,20 +11,21 @@ int main (int argc, char *argv[])
     strcpy(opponent_addr,"");
     if(argc>1)
 	    for(int i=1;i<argc;i++){
-            printf("%s\n",argv[i]);
             if(!strcmp(argv[i],"-help")){
                 // printf("%s\n","Помощь спешит!");
-                printf("%s\n","ключ -addr <IP адрес оппонента> (формат 192.168.2.138)\n ключ - -ar - автоматическая расстановка кораблей");
+                printf("%s\n","ключ -addr <IP адрес оппонента> (формат 192.168.2.138)\n<    -addr 127.0.0.1 > подключение с локальному серверу\nключ - -ar - автоматическая расстановка кораблей");
                 return 0;
-            }
-			//if(!check_valid_addr[strcmp(argv[i+1]))
-            if(!strcmp(argv[i],"-addr")){
-                strcpy(opponent_addr,argv[i+1]);
-                // printf("%s %s\n",argv[i+1],"IP адрес не соответсвует формату 192.168.2.138");
-			}
-            if(!strcmp(argv[i],"-ar")){
-               auto_reposition=1;
-			}
+            } else  if(!strcmp(argv[i],"-addr")){
+                        strcpy(opponent_addr,argv[i+1]);
+			i++;
+                        // printf("%s %s\n",argv[i+1],"IP адрес не соответсвует формату 192.168.2.138");
+		    } else  if(!strcmp(argv[i],"-ar")){
+                               auto_reposition=1;
+			    }else 
+			    {  
+			    printf("Недопустимый ключ запуска. Для помощи используйте -help\n");
+			    return 0;
+			    }
         }
     // sleep(2);
     if(auto_reposition)
