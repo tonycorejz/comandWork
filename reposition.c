@@ -14,11 +14,11 @@
 int placement_check(struct fields map, int dir, int *coord, int length){
 	int x = coord[X], y= coord[Y];
     if(dir == X) {
-        if (x + length > 9) return 0;
+        if (x + length > 10) return 0;
 
         for (int y = coord[Y] - 1; y <= coord[Y] + 1; y++)
             for (int x = coord[X] - 1; x <= coord[X] + length; x++) {
-                if (map.my_field[x][y] == 1) {
+                if (map.my_field[y][x] == 1) {
                     return 0;
                 }
             }
@@ -30,11 +30,11 @@ int placement_check(struct fields map, int dir, int *coord, int length){
 	}
 
 	if(dir == Y){
-        if(y + length > 9) return 0;
+        if(y + length > 10) return 0;
 
         for(int x = coord[X]-1; x <= coord[X]+1; x++)
             for(int y = coord[Y]-1; y <= coord[Y]+length; y++){
-                if(map.my_field[x][y] == 1){
+                if(map.my_field[y][x] == 1){
                     return 0;
                 }
             }
