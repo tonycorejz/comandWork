@@ -82,6 +82,7 @@ int battle(struct fields field, int sock_fd, int stroke)
                         break;
 				
                     default:
+                        strcpy(field.status, "My's mista"); 
                         printf("Что-то пошло не так");
                         break;
                 }
@@ -123,6 +124,7 @@ int battle(struct fields field, int sock_fd, int stroke)
                         break;
                     
                     default:
+                        strcpy(field.status, "Opponent's mista"); 
                         printf("Что-то пошло не так");
                         break;
                 }
