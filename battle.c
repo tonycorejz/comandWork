@@ -23,12 +23,6 @@ int check(char opponent_field[10][10])
  * */
 int battle(struct fields field, int sock_fd, int stroke)
 {
-//    struct sockaddr_in client;
-//    socklen_t addrlen = sizeof(client);
-
-//    client.sin_family = AF_INET;
-//    client.sin_port = htons(8679);    
-    
     int repeat_move;
     int buf_coord[4];
     int *b; //для получения координат от waitClick
@@ -47,8 +41,6 @@ int battle(struct fields field, int sock_fd, int stroke)
                 b = wait_click(1);
                 buf_coord[0] = b[0];
                 buf_coord[1] = b[1];
-//                sendto(sock_fd, buf_coord, sizeof(buf_coord), 0, (struct sockaddr*)&client, addrlen);
-//                recvfrom(sock_fd, buf_coord, sizeof(buf_coord), 0, (struct sockaddr*)&client, &addrlen);
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 if(buf_coord[3] == 0)
@@ -68,7 +60,7 @@ int battle(struct fields field, int sock_fd, int stroke)
                     case 2:
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 4;
                         window(field);
-                        sleep(1);
+                        usleep(500000);
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 2;
                         window(field);
                         break;
@@ -76,13 +68,12 @@ int battle(struct fields field, int sock_fd, int stroke)
                     case 3:
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 4;
                         window(field);
-                        sleep(1);
+                        usleep(500000);
                         field.opponent_field[buf_coord[0]][buf_coord[1]] = 3;
                         window(field);
                         break;
 				
                     default:
-                        strcpy(field.status, "My's mista"); 
                         printf("Что-то пошло не так");
                         break;
                 }
@@ -90,13 +81,12 @@ int battle(struct fields field, int sock_fd, int stroke)
         }else{  //игрок принимает атаку
             /* Получаем ячейку куда был выстрел 
              * Ставим в свой массив, если было 1 то ставится 2
-             * если 0 то ЧТО-ТО
+             * если 0 то ставится 3, так же обрабатывается ошибка
              * */
             repeat_move = 1;
             strcpy(field.status, "Opponent's move"); 
             window(field);
             while(repeat_move == GOT_SHOT){
-//                recvfrom(sock_fd, buf_coord, sizeof(buf_coord), 0, (struct sockaddr*)&client, &addrlen);
                 recv(sock_fd, buf_coord, sizeof(buf_coord), 0);
                 switch(field.my_field[buf_coord[0]][buf_coord[1]]){
                     case 0:
@@ -113,7 +103,7 @@ int battle(struct fields field, int sock_fd, int stroke)
                         buf_coord[3] = check(field.my_field);
                         if(buf_coord[3] == 0)
                             repeat_move = 0;
-				        break;
+                        break;
 
                     case 2:
                         buf_coord[2] = 2;
@@ -124,20 +114,23 @@ int battle(struct fields field, int sock_fd, int stroke)
                         break;
                     
                     default:
-                        strcpy(field.status, "Opponent's mista"); 
                         printf("Что-то пошло не так");
                         break;
                 }
-//                sendto(sock_fd, buf_coord, sizeof(buf_coord), 0, (struct sockaddr*)&client, addrlen);
                 send(sock_fd, buf_coord, sizeof(buf_coord), 0);
             }
         }
 
         if(buf_coord[3] == 0){
-            if(stroke == 1)
+            if(stroke == 1){
+                strcpy(field.status, "You win");
+                sleep(10);
                 return 0;
-            else
+            }else{
+                strcpy(field.status, "You lose");
+                sleep(10);
                 return 1;
+            }
         }
 
         stroke = stroke ^ 1;
