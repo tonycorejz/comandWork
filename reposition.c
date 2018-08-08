@@ -99,6 +99,7 @@ struct fields set_rand_ships(struct fields map) {
             ship_length--;
 
         }
+
     }
     return map;
 }
@@ -113,59 +114,68 @@ struct fields set_rand_ships(struct fields map) {
  * */
 
 struct fields set_ships_by_hand(struct fields map) {
-    map = init(map);
-    strcpy(map.status, "Place your ships");
-    int dir = 0; // 1 = горизонтально, 0 = вертикально
-    int ship_length = 5;
-    int *coord, cach_coord[2] = {11, 11};
-    char red_state_of_field;
-    while (ship_length != 0) {
-        window(map);
-        coord = wait_click(0);
 
-        if (coord[Y] == cach_coord[Y] && coord[X] == cach_coord[X]) {
-            if (dir == X) {
-                ship_length++;
-                map = ship_setting(map, X, coord, ship_length, 0);
-                dir = Y;
-
-                if (placement_check(map, Y, coord, ship_length)) {
-                    map = ship_setting(map, Y, coord, ship_length, 1);
-                    ship_length--;
-                    window(map);
-                } else {
-                    cach_coord[Y] = -1;
-                    cach_coord[X] = -1;
-                }
-            } else {
-                ship_length++;
-                map = ship_setting(map, Y, coord, ship_length, 0);
-                cach_coord[Y] = -1;
-                cach_coord[X] = -1;
-            }
-        } else {
-
-
-            if (placement_check(map, X, coord, ship_length)) {
-                dir = X;
+	map = init(map);
+	strcpy (map.status, "Place your ships");
+	int dir = 0; // 1 = горизонтально, 0 = вертикально
+	int ship_length = 5;
+    char state_of_FIELD;
+	int *coord, cach_coord[2] = {-1, -1};
+	while(ship_length != 0) {		
+		window(map);
+		coord = wait_click(0);
+		
+		if(coord[Y] == cach_coord[Y] && coord[X] == cach_coord[X]){
+                if(dir==X){ 
+                    ship_length++;
+                    map = ship_setting(map, X, coord, ship_length, 0);
+                    dir=Y;
+			    	
+		           if (placement_check(map, Y, coord, ship_length)){
+			    	    map = ship_setting(map, Y, coord, ship_length, 1);
+			    	    ship_length--;
+				        window(map);
+        	    	}else{
+                             cach_coord[Y]=-1;
+                             cach_coord[X]=-1;
+                          }
+                }else{
+                       ship_length++;
+                       map = ship_setting(map, Y, coord, ship_length, 0); 
+                       cach_coord[Y]=-1;
+                       cach_coord[X]=-1;
+                        }
+		}else{      
+                
+                
+			if (placement_check(map, X, coord, ship_length)){
+                dir=X;
                 cach_coord[0] = coord[0];
                 cach_coord[1] = coord[1];
-                map = ship_setting(map, X, coord, ship_length, 1);
-                ship_length--;
-                window(map);
+				map = ship_setting(map, X, coord, ship_length, 1);
+				ship_length--;
+				window(map);  
+			}else if(placement_check(map, Y, coord, ship_length)){
+                        dir=Y;
+                        cach_coord[0] = coord[0];
+                        cach_coord[1] = coord[1];
+				        map = ship_setting(map, Y, coord, ship_length, 1);
+				        ship_length--;
+				        window(map);   
 
             }else{
-                    red_state_of_field=map.my_field[coord[0]][coord[1]];
+                    state_of_FIELD=map.my_field[coord[0]][coord[1]];
                     map.my_field[coord[0]][coord[1]] = 4;
                     window(map);
                     usleep(500000);
-                    map.my_field[coord[0]][coord[1]]=red_state_of_field;
+                    map.my_field[coord[0]][coord[1]]=state_of_FIELD;
                     window(map);
                     
                 }
-        }
+		}
 
+		
+	}
+	return map;
 
-    }
-    return map;
 }
