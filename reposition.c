@@ -16,11 +16,6 @@ int placement_check(struct fields map, int dir, int *coord, int length) {
                     return 0;
                 }
             }
-        /*
-        for(x , y ; x < coord[X]+length-1; x++){
-            if(map.my_field[y][x] == 1) return 0;
-        }
-        */
     }
 
     if (dir == Y) {
@@ -32,15 +27,9 @@ int placement_check(struct fields map, int dir, int *coord, int length) {
                     return 0;
                 }
             }
-        /*
-         for(x , y; y < coord[Y]+length-1; y++){
-             if(map.my_field[y][x] == 1) return 0;
-         }
-          */
     }
     return 1;
 }
-//
 /* Ставит корабль
  * Принимает val, как значение для заполнения
  *      1 - заполняем клетками корабля
